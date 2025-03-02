@@ -1,34 +1,44 @@
-function numberToWords(num) {
-    if (num < 0 || num > 999 || isNaN(num)) {
-        return "Vui lòng nhập số trong khoảng 0 - 999.";
+const units = ["", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
+const specialTens = {1: "mười", 0: "linh"};
+
+const n = parseInt(prompt("Nhập số (0-999): "), 10);
+if (n >= 0 && n <= 999) {
+    let hundreds = Math.floor(n / 100);
+    let tens = Math.floor((n % 100) / 10);
+    let ones = n % 10;
+
+    let result = "";
+
+    if (hundreds) {
+        result += units[hundreds] + " trăm";
+        if (tens === 0 && ones !== 0) {
+            result += " " + specialTens[0];
+        }
     }
 
-    let ones = ["", "một", "hai", "ba", "bốn", "năm", "sáu", "bảy", "tám", "chín"];
-    let tens = ["", "mười", "hai mươi", "ba mươi", "bốn mươi", "năm mươi", "sáu mươi", "bảy mươi", "tám mươi", "chín mươi"];
-
-    if (num === 0) return "Không";
-
-    let hundred = Math.floor(num / 100);
-    let ten = Math.floor((num % 100) / 10);
-    let unit = num % 10;
-    let words = "";
-
-    if (hundred > 0) {
-        words += ones[hundred] + " trăm";
-        if (ten === 0 && unit !== 0) words += " linh";
+    if (tens) {
+        if (tens === 1) {
+            result += " " + specialTens[1];
+        } else {
+            result += " " + units[tens] + " mươi";
+        }
     }
 
-    if (ten > 0) {
-        words += (words ? " " : "") + tens[ten];
-        if (unit === 5) words += " lăm";
+    if (ones) {
+        if (tens > 1 && ones === 5) {
+            result += " lăm";
+        } else if (tens > 0) {
+            result += " " + units[ones];
+        } else {
+            result += " " + units[ones];
+        }
     }
 
-    if (unit > 0 && ten !== 1) {
-        words += (words ? " " : "") + ones[unit];
-    }
-
-    return words.charAt(0).toUpperCase() + words.slice(1);
+    console.log("Kết quả:", result.trim());
+    document.write("Kết quả:", result.trim());
+    alert("Kết quả:", result.trim());
+} else {
+    console.log("Vui lòng nhập số trong khoảng 0-999.");
+    document.write("Vuiổi nhập số trong khoảng 0-999.");
+    alert("Vuiổi nhập số trong khoảng 0-999.");
 }
-
-let num = parseInt(prompt("Nhập số nguyên (0 - 999):"));
-console.log(numberToWords(num));
